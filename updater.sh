@@ -8,6 +8,18 @@ check_last_command() {
     fi
 }
 
+# Function to kill an existing tmux session if it exists
+kill_tmux_session_if_exists() {
+    local session_name=$1
+    if tmux has-session -t $session_name 2>/dev/null; then
+        echo "Killing existing tmux session: $session_name"
+        tmux kill-session -t $session_name
+        check_last_command
+    else
+        echo "Tmux session $session_name does not exist. Skipping..."
+    fi
+}
+
 # Function to force pull the latest version of a repository
 force_pull_latest_version() {
     local dir=$1
@@ -23,9 +35,14 @@ force_pull_latest_version() {
     fi
 }
 
+# Kill tmux sessions related to the repositories
+kill_tmux_session_if_exists "rasa"
+kill_tmux_session_if_exists "whisper"
+kill_tmux_session_if_exists "nlu"
+
 # Force pull the latest versions from GitHub
 force_pull_latest_version "whisper"
 force_pull_latest_version "idrak_fe_nlu"
 force_pull_latest_version "bot_nlu"
 
-echo "All repositories have been force-updated to the latest version."
+echo "All tmux sessions have been killed and repositories force-updated to the latest version."
