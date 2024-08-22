@@ -55,7 +55,7 @@ kill_tmux_session_if_exists "whisper"
 echo "Starting tmux session for Whisper..."
 tmux new-session -d -s whisper
 check_last_command
-tmux send-keys -t whisper "cd $(pwd)/whisper/WTranscriptor && conda activate whisper_env && gunicorn server:app --workers 4 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:9004" C-m
+tmux send-keys -t whisper "cd $(pwd)/whisper/WTranscriptor && conda activate whisper_env && gunicorn server:app --workers 12 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:9004" C-m
 tmux detach -s whisper
 
 # Start the tmux session for NLU
