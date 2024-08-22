@@ -23,11 +23,12 @@ kill_tmux_session_if_exists() {
 # Function to force pull the latest version of a repository
 force_pull_latest_version() {
     local dir=$1
+    local branch=$2
     if [ -d "$dir" ]; then
-        echo "Force pulling the latest version for $dir..."
+        echo "Force pulling the latest version for $dir (branch: $branch)..."
         cd "$dir"
         git fetch origin
-        git reset --hard origin/main
+        git reset --hard origin/$branch
         check_last_command
         cd ..
     else
@@ -41,8 +42,8 @@ kill_tmux_session_if_exists "whisper"
 kill_tmux_session_if_exists "nlu"
 
 # Force pull the latest versions from GitHub
-force_pull_latest_version "whisper"
-force_pull_latest_version "idrak_fe_nlu"
-force_pull_latest_version "bot_nlu"
+force_pull_latest_version "whisper" "ali_whisper"
+force_pull_latest_version "idrak_fe_nlu" "main"
+force_pull_latest_version "bot_nlu" "main"
 
 echo "All tmux sessions have been killed and repositories force-updated to the latest version."
