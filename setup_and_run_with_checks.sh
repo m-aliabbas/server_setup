@@ -60,18 +60,3 @@ pip install rasa
 check_last_command
 conda deactivate
 
-# Create and run tmux sessions with the specified commands
-# Rasa tmux session
-echo "Starting tmux sessions..."
-tmux new-session -d -s rasa -c "idrak_fe_nlu" "conda activate rasa_env && rasa run -m models/nlu-20240229-181007-intense-javanese.tar.gz --enable-api --port 9097"
-check_last_command
-
-# Whisper tmux session
-tmux new-session -d -s whisper -c "whisper" "conda activate whisper_env && gunicorn server:app --workers 4 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:9004"
-check_last_command
-
-# NLU tmux session
-tmux new-session -d -s nlu -c "bot_nlu" "conda activate whisper_env && python server.py"
-check_last_command
-
-echo "Repositories cloned, Conda environments created, tmux sessions started, and commands executed successfully."
